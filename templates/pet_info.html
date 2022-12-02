@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="card" style="width: 18rem;">
+                <img src="{{pet.photo_url}}" class="img-thumbnail" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{pet.name}}</h5>
+                    <ul>
+                        <li>Species: {{pet.species_type.name}}</li>
+                        <li>Age: {{pet.age}}</li>
+                        {% if pet.available %}
+                        <li>Status: <a class="btn btn-sm btn-success" href="/available_pets">Available</a></li>
+                        {% else %}
+                        <li>Status: <a class="btn btn-sm btn-danger" href="/unavailable_pets">Unavailable</a></li>
+                        {% endif %}
+                    </ul>
+                    <p class="card-text">Notes: {{pet.notes}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-8 ms-auto">
+            <form action="/pet_info/{{pet.id}}" method="POST">
+                {{ form.hidden_tag() }}
+
+                {%for field in form if field.widget.input_type != 'hidden'%}
+                <div class="mb-3">
+                    {{field.label(class_='form-label')}}
+                    {{field(class_="form-control")}}
+                    {% for error in field.errors %}
+                    <p class="text-danger">
+                        {{error}}
+                    </p>
+                    {% endfor%}
+                </div>
+                {% endfor %}
+                <button class="btn btn-primary" type="submit">submit edit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
