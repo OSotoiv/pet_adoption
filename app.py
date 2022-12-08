@@ -70,7 +70,6 @@ def pet_info(pet_id):
     form = PetForm(obj=pet)
     form.pet_species.choices = [(s.id, s.name) for s in Species.query.all()]
     if form.validate_on_submit():
-        raise
         updated_pet = update_pet(form, pet)
         db.session.add(updated_pet)
         db.session.commit()
